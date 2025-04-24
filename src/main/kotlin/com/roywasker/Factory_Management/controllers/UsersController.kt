@@ -1,16 +1,14 @@
 package com.roywasker.Factory_Management.controllers
 
+import com.roywasker.Factory_Management.Service.UserService
 import com.roywasker.Factory_Management.model.User
-import com.roywasker.Factory_Management.repository.UsersRepository
 import org.bson.types.ObjectId
-import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.server.ResponseStatusException
 
 @RestController
 @RequestMapping("/users")
 class UsersController (
-    val usersRepository: UsersRepository
+    val userService: UserService
 ) {
 
     data class  UserResponse(
@@ -27,13 +25,12 @@ class UsersController (
 
     @GetMapping("/{userName}")
     fun findByUserName(@PathVariable userName: String): UserResponse? {
-        val user = usersRepository.findByUserName(userName)?: return null
-        return user.toUserResponse()
+        return userService.findByUserName(userName)?.toUserResponse()
     }
 
     @GetMapping
     fun findAllUser(): List<UserResponse>? {
-        val users = usersRepository.findAll().map {
+        val users = userService.findAllUser()?.map {
            it.toUserResponse()
         }
         return users
@@ -41,34 +38,17 @@ class UsersController (
 
     @GetMapping("/actions/{userId}")
     fun getUserAction(@PathVariable userId: ObjectId): Map<String,Int?>? {
-        val user = usersRepository.findById(userId).orElse(null)
-        return mapOf("actionToday" to user?.actionToday)
+        return userService.getUserAction(userId)
     }
 
     @PostMapping("/actions")
     fun updateUserAction(@RequestBody body: UserIdRequest): UserResponse {
-        val user = usersRepository.findById(ObjectId(body.userId)).orElseThrow {
-            ResponseStatusException(HttpStatus.NOT_FOUND,"User Not Found")
-        }
-
-        val updateActionForToday= user.copy(
-            actionToday = user.actionToday.minus(1)
-        )
-
-        return usersRepository.save(updateActionForToday).toUserResponse()
+        return userService.updateUserAction(ObjectId(body.userId)).toUserResponse()
     }
 
     @PostMapping("/actions/reset")
     fun resetUserAction(@RequestBody body: UserIdRequest): UserResponse {
-        val user = usersRepository.findById(ObjectId(body.userId)).orElseThrow {
-            ResponseStatusException(HttpStatus.NOT_FOUND,"User Not Found")
-        }
-
-        val updateActionForToday= user.copy(
-            actionToday = user.numOfActions
-        )
-
-        return usersRepository.save(updateActionForToday).toUserResponse()
+       return userService.resetUserAction(ObjectId(body.userId)).toUserResponse()
     }
 
     private fun User.toUserResponse(): UserResponse {

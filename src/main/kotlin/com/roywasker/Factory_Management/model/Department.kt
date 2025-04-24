@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.data.mongodb.core.mapping.Field
 
 
-@Document("department")
+@Document("departments")
 data class Department(
     @Id val id: ObjectId = ObjectId(),
     @Field("Name") val name: String,
