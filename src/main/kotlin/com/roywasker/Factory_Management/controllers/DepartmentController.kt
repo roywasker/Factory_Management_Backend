@@ -2,6 +2,7 @@ package com.roywasker.Factory_Management.controllers
 
 import com.roywasker.Factory_Management.Service.DepartmentService
 import com.roywasker.Factory_Management.model.Department
+import com.roywasker.Factory_Management.model.Employee
 import jakarta.validation.Valid
 import org.bson.types.ObjectId
 import org.springframework.web.bind.annotation.*
@@ -33,9 +34,9 @@ class DepartmentController (
             it.toDepartmentResponse()
         }
     }
-    @GetMapping("/{userId}")
-    fun getDepartmentById(@PathVariable userId: ObjectId): DepartmentResponse {
-        return departmentService.getDepartmentById(userId).toDepartmentResponse()
+    @GetMapping("/{departmentId}")
+    fun getDepartmentById(@PathVariable departmentId: ObjectId): DepartmentResponse {
+        return departmentService.getDepartmentById(departmentId).toDepartmentResponse()
     }
 
     @PostMapping
