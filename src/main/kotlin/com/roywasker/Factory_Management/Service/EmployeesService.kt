@@ -3,6 +3,7 @@ package com.roywasker.Factory_Management.Service
 import com.roywasker.Factory_Management.model.Employee
 import com.roywasker.Factory_Management.repository.EmployeesRepository
 import org.bson.types.ObjectId
+import org.springframework.context.annotation.Lazy
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
@@ -10,7 +11,8 @@ import org.springframework.web.server.ResponseStatusException
 
 @Service
 class EmployeesService(
-    private val employeesRepository: EmployeesRepository
+    private val employeesRepository: EmployeesRepository,
+    @Lazy private val shiftsService: ShiftsService
 ) {
 
     fun getAllEmployees(): List<Employee> {
@@ -58,6 +60,7 @@ class EmployeesService(
     }
 
     fun deleteEmployee(employeeId: ObjectId) {
+        shiftsService.removeEmployeeFromAllShift(employeeId)
         employeesRepository.deleteById(employeeId)
     }
 
