@@ -1,7 +1,6 @@
 package com.roywasker.Factory_Management.controllers
 
 import com.roywasker.Factory_Management.Service.ShiftsService
-import com.roywasker.Factory_Management.model.Employee
 import com.roywasker.Factory_Management.model.Shift
 import jakarta.validation.Valid
 import org.bson.types.ObjectId

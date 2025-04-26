@@ -46,7 +46,7 @@ class AuthService (
                 hashedPassword = hashEncoder.encode(password),
                 fullName = fullName,
                 numOfActions = numOfActions,
-                actionDate = Date().toString(),
+                actionDate = Date().toInstant().toString().substring(0, 10),
                 actionToday = 0
             )
         )

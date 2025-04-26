@@ -6,6 +6,7 @@ import org.bson.types.ObjectId
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
+import java.util.Date
 
 
 @Service
@@ -22,6 +23,10 @@ class UserService(
         return users
     }
 
+    fun getUserById(userId: ObjectId): User {
+        return usersRepository.findById(userId).orElseThrow{ ResponseStatusException(HttpStatus.NOT_FOUND) }
+    }
+
     fun getUserAction(userId: ObjectId): Map<String,Int?>? {
         val user = usersRepository.findById(userId).orElse(null)
         return mapOf("actionToday" to user?.actionToday)
@@ -33,7 +38,8 @@ class UserService(
         }
 
         val updateActionForToday= user.copy(
-            actionToday = user.actionToday.minus(1)
+            actionToday = user.actionToday.minus(1),
+            actionDate = Date().toInstant().toString().substring(0, 10),
         )
 
         return usersRepository.save(updateActionForToday)

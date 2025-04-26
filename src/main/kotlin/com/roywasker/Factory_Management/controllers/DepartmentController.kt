@@ -2,7 +2,6 @@ package com.roywasker.Factory_Management.controllers
 
 import com.roywasker.Factory_Management.Service.DepartmentService
 import com.roywasker.Factory_Management.model.Department
-import com.roywasker.Factory_Management.model.Employee
 import jakarta.validation.Valid
 import org.bson.types.ObjectId
 import org.springframework.web.bind.annotation.*

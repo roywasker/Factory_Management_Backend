@@ -1,12 +1,9 @@
 package com.roywasker.Factory_Management.controllers
 
 import com.roywasker.Factory_Management.Service.EmployeesService
-import com.roywasker.Factory_Management.controllers.DepartmentController.DepartmentResponse
-import com.roywasker.Factory_Management.model.Department
 import com.roywasker.Factory_Management.model.Employee
 import jakarta.validation.Valid
 import org.bson.types.ObjectId
-import org.springframework.data.mongodb.core.mapping.Field
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
